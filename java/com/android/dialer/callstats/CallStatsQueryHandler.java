@@ -253,8 +253,16 @@ public class CallStatsQueryHandler extends AsyncQueryHandler {
     return info;
   }
 
+  // Helper function for Android 10: PhoneNumberUtils.isUriNumber does not exist yet
+  private static boolean isUriNumber(String number) {
+    if (number == null) return false;
+    // A simple check for SIP/URI numbers: contains '@' or ':'
+    return number.contains("@") || number.contains(":");
+  }
+
   private static boolean phoneNumbersEqual(String number1, String number2) {
-    if (PhoneNumberUtils.isUriNumber(number1) || PhoneNumberUtils.isUriNumber(number2)) {
+    // Use our helper instead of the unavailable PhoneNumberUtils.isUriNumber
+    if (isUriNumber(number1) || isUriNumber(number2)) {
       return sipAddressesEqual(number1, number2);
     } else {
       return PhoneNumberUtils.compare(number1, number2);

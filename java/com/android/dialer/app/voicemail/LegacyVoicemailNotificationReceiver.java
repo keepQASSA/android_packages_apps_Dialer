@@ -60,12 +60,14 @@ public class LegacyVoicemailNotificationReceiver extends BroadcastReceiver {
     if (!BuildCompat.isAtLeastO()) {
       LogUtil.e(
           "LegacyVoicemailNotificationReceiver.onReceive",
+          // RELEASE_OR_CODENAME is not available on Android 10, use RELEASE + CODENAME instead
           "SDK not finalized: SDK_INT="
               + Build.VERSION.SDK_INT
               + ", PREVIEW_SDK_INT="
               + Build.VERSION.PREVIEW_SDK_INT
               + ", RELEASE="
-              + Build.VERSION.RELEASE_OR_CODENAME);
+              + Build.VERSION.RELEASE
+              + " (" + Build.VERSION.CODENAME + ")");
       return;
     }
 
